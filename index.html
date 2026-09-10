@@ -1,0 +1,959 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Product Thinking, Start to Finish</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  --ground:#F0F2EE;
+  --surface:#FFFFFF;
+  --surface-sunk:#E7EAE4;
+  --ink:#101F1D;
+  --ink-soft:#42544F;
+  --ink-faint:#71827C;
+  --rule:#D3D9D0;
+  --rule-strong:#B6C0B7;
+  --accent:#14635E;
+  --accent-soft:#DDEAE6;
+  --accent-ink:#0C4340;
+  --signal:#B36A0F;
+  --signal-soft:#F3E7D3;
+  --good:#2A6B4F;
+  --good-soft:#DDEBE1;
+  --bad:#A63527;
+  --bad-soft:#F4E0DC;
+  --shadow:0 1px 2px rgba(16,31,29,.05), 0 8px 24px -14px rgba(16,31,29,.28);
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0C1615;
+    --surface:#13211F;
+    --surface-sunk:#0F1B1A;
+    --ink:#E4EDE9;
+    --ink-soft:#A8BAB4;
+    --ink-faint:#7C8F89;
+    --rule:#25352F;
+    --rule-strong:#37493F;
+    --accent:#5FBFB2;
+    --accent-soft:#16332F;
+    --accent-ink:#8FD8CC;
+    --signal:#DFA33F;
+    --signal-soft:#33280F;
+    --good:#6BBF92;
+    --good-soft:#16301F;
+    --bad:#E08479;
+    --bad-soft:#331917;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 10px 28px -16px rgba(0,0,0,.7);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0C1615;
+  --surface:#13211F;
+  --surface-sunk:#0F1B1A;
+  --ink:#E4EDE9;
+  --ink-soft:#A8BAB4;
+  --ink-faint:#7C8F89;
+  --rule:#25352F;
+  --rule-strong:#37493F;
+  --accent:#5FBFB2;
+  --accent-soft:#16332F;
+  --accent-ink:#8FD8CC;
+  --signal:#DFA33F;
+  --signal-soft:#33280F;
+  --good:#6BBF92;
+  --good-soft:#16301F;
+  --bad:#E08479;
+  --bad-soft:#331917;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 10px 28px -16px rgba(0,0,0,.7);
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--ground);
+  color:var(--ink);
+  font-family:"Public Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:17px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%}
+[hidden]{display:none !important}
+a{color:var(--accent-ink);text-decoration-thickness:1px;text-underline-offset:3px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+@media (prefers-reduced-motion: reduce){*{animation-duration:.01ms !important;transition-duration:.01ms !important}}
+
+.wrap{max-width:820px;margin:0 auto;padding-inline:22px}
+
+/* ---------- masthead ---------- */
+.masthead{border-bottom:1px solid var(--rule);background:var(--surface)}
+.masthead .wrap{padding-block:44px 38px}
+.eyebrow{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:12px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--signal);margin:0 0 20px;font-weight:500;
+}
+h1{
+  font-family:Newsreader,Georgia,serif;
+  font-weight:500;font-size:clamp(38px,7vw,60px);line-height:1.03;
+  letter-spacing:-.015em;margin:0;text-wrap:balance;
+}
+h1 em{font-style:italic;color:var(--accent)}
+.deck{
+  font-family:Newsreader,Georgia,serif;font-size:20px;line-height:1.5;
+  color:var(--ink-soft);max-width:56ch;margin:20px 0 0;
+}
+.sourceline{
+  margin:26px 0 0;padding-top:18px;border-top:1px solid var(--rule);
+  font-size:14px;color:var(--ink-faint);display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline;
+}
+
+/* ---------- shifts ---------- */
+.shifts{background:var(--surface-sunk);border-bottom:1px solid var(--rule)}
+.shifts .wrap{padding-block:36px}
+.shifts h2{
+  font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--ink-faint);font-weight:600;margin:0 0 20px;
+}
+.shift-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2px;background:var(--rule)}
+.shift{background:var(--surface-sunk);padding:18px 20px 20px}
+.shift .from{font-size:14px;color:var(--ink-faint);text-decoration:line-through;text-decoration-color:var(--rule-strong)}
+.shift .to{font-family:Newsreader,Georgia,serif;font-size:23px;line-height:1.25;color:var(--accent-ink);margin-top:4px;display:block}
+
+/* ---------- modules ---------- */
+main .wrap{padding-block:8px 0}
+.mod{padding-block:44px;border-bottom:1px solid var(--rule)}
+.mod-head{display:flex;gap:16px;align-items:baseline;margin-bottom:6px}
+.mod-num{
+  font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:600;
+  color:var(--signal);flex:none;padding-top:6px;
+  font-variant-numeric:tabular-nums;
+}
+.mod h2{
+  font-family:Newsreader,Georgia,serif;font-weight:500;
+  font-size:clamp(27px,4.6vw,35px);line-height:1.14;letter-spacing:-.01em;
+  margin:0;text-wrap:balance;
+}
+.mod-body{padding-left:0}
+@media (min-width:640px){.mod-body{padding-left:45px}}
+.mod-body>p{max-width:65ch}
+.mod-body>p:first-child{margin-top:14px}
+
+.pull{
+  font-family:Newsreader,Georgia,serif;font-size:22px;line-height:1.4;
+  color:var(--ink);border-left:3px solid var(--signal);
+  padding:2px 0 2px 20px;margin:26px 0;max-width:56ch;
+}
+.pull cite{display:block;font-family:"Public Sans",sans-serif;font-size:13px;font-style:normal;color:var(--ink-faint);margin-top:10px}
+
+/* framework block */
+.fw{
+  background:var(--surface);border:1px solid var(--rule);border-radius:3px;
+  box-shadow:var(--shadow);margin:26px 0;overflow:hidden;
+}
+.fw-title{
+  display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;
+  padding:14px 20px;border-bottom:1px solid var(--rule);background:var(--accent-soft);
+}
+.fw-title b{font-family:"IBM Plex Mono",monospace;font-size:13px;letter-spacing:.06em;color:var(--accent-ink);font-weight:600}
+.fw-title span{font-size:13px;color:var(--ink-soft)}
+.fw dl{margin:0;padding:6px 20px 18px}
+.fw dt{
+  font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:600;
+  color:var(--accent-ink);margin-top:14px;letter-spacing:.02em;
+}
+.fw dd{margin:3px 0 0;font-size:16px;color:var(--ink-soft);max-width:60ch}
+
+/* why chain */
+.chain{list-style:none;margin:26px 0;padding:0;counter-reset:w}
+.chain li{
+  position:relative;padding:0 0 16px 34px;border-left:2px solid var(--signal-soft);
+  margin-left:9px;font-size:16px;
+}
+.chain li:last-child{border-left-color:transparent;padding-bottom:0}
+.chain li::before{
+  counter-increment:w;content:"why " counter(w);
+  position:absolute;left:-9px;top:0;width:18px;height:18px;
+  background:var(--signal);border-radius:50%;
+  font-family:"IBM Plex Mono",monospace;font-size:0;
+}
+.chain li b{display:block;font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--signal);font-weight:600;margin-bottom:2px}
+.chain li:last-child b{color:var(--accent)}
+.chain li:last-child::before{background:var(--accent)}
+
+/* stages */
+.stages{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:2px;background:var(--rule);border:1px solid var(--rule);margin:26px 0}
+.stage{background:var(--surface);padding:14px 16px 16px}
+.stage b{display:block;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--signal);letter-spacing:.08em;margin-bottom:5px;font-variant-numeric:tabular-nums}
+.stage span{font-size:15px;font-weight:600;display:block;line-height:1.25}
+.stage small{display:block;font-size:13px;color:var(--ink-faint);margin-top:5px;line-height:1.4}
+
+/* compare table */
+.cmp{width:100%;border-collapse:collapse;margin:26px 0;font-size:15.5px}
+.cmp th,.cmp td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--rule);vertical-align:top}
+.cmp thead th{
+  font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-faint);border-bottom:1px solid var(--rule-strong);font-weight:600;
+}
+.cmp tbody th{font-weight:600;width:34%;color:var(--ink)}
+.cmp td{color:var(--ink-soft)}
+.tbl-scroll{overflow-x:auto}
+
+.beginner{
+  background:var(--surface-sunk);border-radius:3px;padding:16px 18px;margin:26px 0;
+  border-left:3px solid var(--accent);
+}
+.beginner b{
+  display:block;font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--accent);margin-bottom:6px;font-weight:600;
+}
+.beginner p{margin:0;font-size:16px;color:var(--ink-soft);max-width:62ch}
+
+.tag{
+  display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:11px;
+  letter-spacing:.06em;padding:2px 7px;border-radius:2px;
+  background:var(--signal-soft);color:var(--signal);font-weight:600;
+}
+
+/* ---------- quiz ---------- */
+.quiz{background:var(--surface);border-top:3px solid var(--accent);margin-top:0}
+.quiz .wrap{padding-block:50px 60px}
+.quiz-head{margin-bottom:8px}
+.quiz-head h2{
+  font-family:Newsreader,Georgia,serif;font-weight:500;font-size:clamp(30px,5.5vw,42px);
+  margin:0;line-height:1.1;letter-spacing:-.012em;
+}
+.quiz-head p{color:var(--ink-soft);max-width:58ch;margin:12px 0 0}
+
+.progress{
+  display:flex;align-items:center;gap:14px;margin:26px 0 6px;
+  padding-bottom:14px;border-bottom:1px solid var(--rule);
+  font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.06em;
+  color:var(--ink-faint);font-variant-numeric:tabular-nums;
+}
+.bar{flex:1;height:3px;background:var(--surface-sunk);border-radius:2px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s ease}
+.score-live{color:var(--ink-soft)}
+
+.qcard{padding-top:28px}
+.qmeta{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:10px}
+.qtext{
+  font-family:Newsreader,Georgia,serif;font-size:clamp(21px,3.6vw,26px);line-height:1.34;
+  margin:0 0 22px;max-width:60ch;text-wrap:balance;
+}
+.qtext .scenario{display:block;font-family:"Public Sans",sans-serif;font-size:16px;line-height:1.55;color:var(--ink-soft);margin-bottom:12px;font-style:italic}
+.opts{display:flex;flex-direction:column;gap:9px;margin:0;padding:0;border:0}
+.opt{
+  display:flex;gap:13px;align-items:flex-start;width:100%;text-align:left;
+  background:var(--surface);border:1px solid var(--rule);border-radius:3px;
+  padding:13px 15px;font:inherit;font-size:16px;color:var(--ink);cursor:pointer;
+  transition:border-color .15s,background .15s;line-height:1.45;
+}
+.opt:hover:not(:disabled){border-color:var(--rule-strong);background:var(--surface-sunk)}
+.opt:disabled{cursor:default}
+.opt .key{
+  flex:none;font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:600;
+  width:22px;height:22px;border-radius:2px;background:var(--surface-sunk);
+  color:var(--ink-faint);display:grid;place-items:center;margin-top:1px;
+}
+.opt.is-right{border-color:var(--good);background:var(--good-soft)}
+.opt.is-right .key{background:var(--good);color:var(--surface)}
+.opt.is-wrong{border-color:var(--bad);background:var(--bad-soft)}
+.opt.is-wrong .key{background:var(--bad);color:var(--surface)}
+.opt.is-dim{opacity:.5}
+
+.feedback{margin-top:20px;border-radius:3px;padding:15px 17px;border:1px solid var(--rule);background:var(--surface-sunk)}
+.feedback .verdict{
+  font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.1em;
+  text-transform:uppercase;font-weight:600;margin-bottom:7px;
+}
+.feedback.right .verdict{color:var(--good)}
+.feedback.wrong .verdict{color:var(--bad)}
+.feedback p{margin:0;font-size:15.5px;color:var(--ink-soft);max-width:62ch}
+.feedback .ref{margin-top:9px;font-size:13px;color:var(--ink-faint);font-family:"IBM Plex Mono",monospace}
+
+.qnav{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap}
+.btn{
+  font:inherit;font-size:15px;font-weight:600;padding:11px 22px;border-radius:3px;
+  border:1px solid var(--accent);background:var(--accent);color:var(--surface);
+  cursor:pointer;transition:opacity .15s;
+}
+.btn:hover{opacity:.88}
+.btn.ghost{background:transparent;color:var(--accent-ink);border-color:var(--rule-strong)}
+
+/* results */
+.results{padding-top:12px}
+.results h3{font-family:Newsreader,Georgia,serif;font-weight:500;font-size:clamp(28px,5vw,38px);margin:0 0 4px;line-height:1.1}
+.tally{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--ink-faint);letter-spacing:.06em;font-variant-numeric:tabular-nums}
+.results>p{max-width:60ch;color:var(--ink-soft)}
+.breakdown{margin:26px 0 0;border-top:1px solid var(--rule-strong)}
+.brow{display:flex;gap:14px;align-items:baseline;padding:11px 0;border-bottom:1px solid var(--rule);font-size:15px}
+.brow .mark{font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:12px;flex:none;width:60px;letter-spacing:.06em}
+.brow.ok .mark{color:var(--good)}
+.brow.no .mark{color:var(--bad)}
+.brow .topic{color:var(--ink-soft)}
+
+footer{border-top:1px solid var(--rule);background:var(--ground)}
+footer .wrap{padding-block:28px 44px;font-size:14px;color:var(--ink-faint)}
+footer p{margin:0 0 6px;max-width:64ch}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <p class="eyebrow">A beginner's guide &middot; 7 modules &middot; 18-question quiz</p>
+    <h1>Product thinking is asking <em>better questions</em> before reaching for solutions.</h1>
+    <p class="deck">Everything below is drawn from the Institute of Digital Government's Product Thinking pathway, rewritten for someone starting from zero. Read the seven modules, then take the quiz at the bottom.</p>
+    <p class="sourceline">
+      <span>Source: <a href="https://www.idg.gov.sg/product-thinking/">idg.gov.sg/product-thinking</a></span>
+      <span>Institute of Digital Government, Singapore</span>
+    </p>
+  </div>
+</header>
+
+<section class="shifts">
+  <div class="wrap">
+    <h2>The whole pathway, in three shifts</h2>
+    <div class="shift-grid">
+      <div class="shift"><span class="from">From solutions</span><span class="to">To problems</span></div>
+      <div class="shift"><span class="from">From outputs</span><span class="to">To outcomes</span></div>
+      <div class="shift"><span class="from">From big-bang delivery</span><span class="to">To staged delivery</span></div>
+    </div>
+  </div>
+</section>
+
+<main>
+<div class="wrap">
+
+  <!-- 1 -->
+  <article class="mod" id="m1">
+    <div class="mod-head">
+      <span class="mod-num">01</span>
+      <h2>Understanding the problem</h2>
+    </div>
+    <div class="mod-body">
+      <p>Great digital products start with problems, not solutions. The most common failure in government tech isn't bad engineering &mdash; it's a team that built the wrong thing well.</p>
+      <p class="pull">Many projects fail not because of poor execution, but because they solve the wrong problem.<cite>Module 1</cite></p>
+      <p>The tell-tale sign is a project that begins with a noun instead of a difficulty: <em>"we need a CRM"</em>, <em>"we should use AI"</em>. Both skip the diagnosis. Before naming a tool, you have to name the obstacle standing between people and the outcome you want.</p>
+
+      <div class="fw">
+        <div class="fw-title"><b>Three core principles</b><span>the posture behind every later framework</span></div>
+        <dl>
+          <dt>Problems before solutions</dt>
+          <dd>Diagnose what's actually blocking the outcome before you choose what to build.</dd>
+          <dt>Outcomes over outputs</dt>
+          <dd>An output is what you shipped. An outcome is what changed for people because you shipped it. Success is defined by change, not by features delivered.</dd>
+          <dt>Integrate policy, operations and technology</dt>
+          <dd>A digital fix rarely works alone. The policy rule, the day-to-day process and the system have to move together.</dd>
+        </dl>
+      </div>
+
+      <p>Start narrow. Grab began with taxis. Amazon began with books. Netflix began with DVDs by post. None of them started with the full vision &mdash; each nailed one problem first, then scaled.</p>
+
+      <div class="beginner">
+        <b>In plain terms</b>
+        <p>If you can't say who is struggling, with what, and how you know &mdash; you are not ready to build. "Launched the portal" is an output. "Applications now take 4 minutes instead of 40" is an outcome.</p>
+      </div>
+    </div>
+  </article>
+
+  <!-- 2 -->
+  <article class="mod" id="m2">
+    <div class="mod-head">
+      <span class="mod-num">02</span>
+      <h2>Start with the whys</h2>
+    </div>
+    <div class="mod-body">
+      <p>Before reaching for a solution, understand <em>why</em> the problem exists. The <span class="tag">Five Whys</span> is a simple tool that moves you from symptom to cause: state the problem, ask why it happens, then ask why of that answer, roughly five times over.</p>
+
+      <ol class="chain">
+        <li><b>Symptom</b>Citizens submit the same personal details to three different agencies.</li>
+        <li><b>Why?</b>Each agency's form collects its own copy of the data.</li>
+        <li><b>Why?</b>No agency can read the data another already holds.</li>
+        <li><b>Why?</b>The systems were built separately, with no shared data layer.</li>
+        <li><b>Why?</b>There was no common data-sharing standard or mandate when they were built.</li>
+        <li><b>Root cause &mdash; and the level you can act on</b>Data-sharing arrangements, not the form's design.</li>
+      </ol>
+
+      <p>Note what happens to the solution as you descend the chain. At the top, you'd redesign a form. At the bottom, you'd integrate data &mdash; a completely different piece of work, aimed at a cause rather than a symptom.</p>
+
+      <p class="pull">Problems rarely have one root cause. The goal is to find causes that are within your control and closely connected to the outcome you want to change.<cite>Module 2</cite></p>
+
+      <div class="beginner">
+        <b>In plain terms</b>
+        <p>Five is a rule of thumb, not a quota. Stop when you hit a cause you can actually do something about. A "root cause" you have no authority to touch is interesting but useless; a cause that is in your control but barely affects the outcome is a distraction.</p>
+      </div>
+    </div>
+  </article>
+
+  <!-- 3 -->
+  <article class="mod" id="m3">
+    <div class="mod-head">
+      <span class="mod-num">03</span>
+      <h2>Craft a clear problem statement</h2>
+    </div>
+    <div class="mod-body">
+      <p>Once you've found the cause, write it down in a form the whole team can agree on. The <span class="tag">4Cs</span> gives a problem statement its four required parts &mdash; and, usefully, exposes which part you're missing.</p>
+
+      <div class="fw">
+        <div class="fw-title"><b>The 4Cs</b><span>a problem statement is incomplete without all four</span></div>
+        <dl>
+          <dt>Clarity &mdash; what exactly is the problem?</dt>
+          <dd>Stated distinctly, for a specific group of people. No jargon, no solution smuggled inside.</dd>
+          <dt>Consequence &mdash; so what?</dt>
+          <dd>The impact if nothing changes: wasted time, cost, frustration, low take-up, risk.</dd>
+          <dt>Cause &mdash; why does it happen?</dt>
+          <dd>The underlying reason you surfaced with the Five Whys, not the surface symptom.</dd>
+          <dt>Confirmation &mdash; how do you know?</dt>
+          <dd>The evidence: user research, analytics, case volumes, service data. This is the C that turns an opinion into a problem statement.</dd>
+        </dl>
+      </div>
+
+      <p>Worked through on the recurring government example &mdash; citizens repeatedly filling the same forms across services:</p>
+
+      <div class="tbl-scroll">
+      <table class="cmp">
+        <thead><tr><th scope="col">The C</th><th scope="col">Applied</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Clarity</th><td>Citizens encounter duplicate form requirements across government services.</td></tr>
+          <tr><th scope="row">Consequence</th><td>Time wasted, frustration, and reduced service adoption.</td></tr>
+          <tr><th scope="row">Cause</th><td>Systems lack data integration across agencies.</td></tr>
+          <tr><th scope="row">Confirmation</th><td>User research and analytics verify the issue.</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <div class="beginner">
+        <b>In plain terms</b>
+        <p>Read your draft back and ask which of the four is thinnest. Most first drafts are strong on Clarity and empty on Confirmation &mdash; which means the "problem" is still a hunch. And if your statement contains the words "we need a&hellip;", you've written a solution, not a problem.</p>
+      </div>
+    </div>
+  </article>
+
+  <!-- 4 -->
+  <article class="mod" id="m4">
+    <div class="mod-head">
+      <span class="mod-num">04</span>
+      <h2>Metrics that reflect real outcomes</h2>
+    </div>
+    <div class="mod-body">
+      <p>A problem statement tells you what to change. Metrics tell you whether it changed. Three tools do the work here.</p>
+
+      <div class="fw">
+        <div class="fw-title"><b>SMART</b><span>the shape of a usable metric</span></div>
+        <dl>
+          <dt>Specific</dt><dd>Clearly defined &mdash; one thing, unambiguously.</dd>
+          <dt>Measurable</dt><dd>Quantifiable with data you can actually get.</dd>
+          <dt>Achievable</dt><dd>Realistic to obtain, not aspirational fiction.</dd>
+          <dt>Relevant</dt><dd>Connected to the objective in your problem statement.</dd>
+          <dt>Time-bound</dt><dd>Fixed to a defined timeframe.</dd>
+        </dl>
+      </div>
+
+      <div class="fw">
+        <div class="fw-title"><b>Leading &amp; lagging indicators</b><span>used together, never alone</span></div>
+        <dl>
+          <dt>Leading indicators</dt><dd>Give early feedback on activities and processes &mdash; sign-ups this week, form completion rate, drop-off at step 3. They move fast and let you steer while there's still time.</dd>
+          <dt>Lagging indicators</dt><dd>Measure the real outcome after the fact &mdash; processing time reduced, cost per case, service adoption. They confirm impact but arrive too late to correct course.</dd>
+        </dl>
+      </div>
+
+      <div class="fw">
+        <div class="fw-title"><b>Value-Cost Ratio (VCR)</b><span>the funding conversation</span></div>
+        <dl>
+          <dt>What it measures</dt><dd>How much value is generated for every dollar spent.</dd>
+          <dt>Why it matters</dt><dd>It's how you make the case for continued investment &mdash; and how you compare "improve value" against "reduce cost" as two routes to the same better ratio.</dd>
+        </dl>
+      </div>
+
+      <div class="beginner">
+        <b>In plain terms</b>
+        <p>Chain them: a leading indicator you can watch weekly should plausibly cause the lagging outcome you promised. If it doesn't, you're measuring activity, not impact &mdash; the metric equivalent of counting outputs.</p>
+      </div>
+    </div>
+  </article>
+
+  <!-- 5 -->
+  <article class="mod" id="m5">
+    <div class="mod-head">
+      <span class="mod-num">05</span>
+      <h2>Assumptions and risks</h2>
+    </div>
+    <div class="mod-body">
+      <p>Every plan rests on things you believe but haven't checked. The discipline is to surface them early and ask two questions: <strong>what could go wrong, and what's the cheapest way to find out?</strong></p>
+
+      <div class="fw">
+        <div class="fw-title"><b>Three types of risk</b><span>each has its own cheap test</span></div>
+        <dl>
+          <dt>Market risk &mdash; will anyone use it?</dt>
+          <dd>De-risk by getting your product in front of real users as early as possible.</dd>
+          <dt>Technical risk &mdash; can it be built?</dt>
+          <dd>De-risk with small proof-of-concept work. At this stage, testability matters more than scalability.</dd>
+          <dt>Team risk &mdash; can this group deliver it?</dt>
+          <dd>De-risk by structuring for speed, focus and flexibility: policy, operations and technical expertise in one room, with clear accountability across every role.</dd>
+        </dl>
+      </div>
+
+      <div class="stages">
+        <div class="stage"><b>STAGE 1</b><span>Proof of Concept</span><small>Does the approach work at all?</small></div>
+        <div class="stage"><b>STAGE 2</b><span>Proof of Value</span><small>Does it produce measurable benefit?</small></div>
+        <div class="stage"><b>STAGE 3</b><span>Scale</span><small>Expand to larger user bases.</small></div>
+        <div class="stage"><b>STAGE 4</b><span>Maturity</span><small>Sustained, optimised operations.</small></div>
+      </div>
+
+      <p>The staged sequence is what lets you test assumptions <em>before</em> committing serious resources &mdash; the alternative to big-bang delivery.</p>
+
+      <p><strong>The worked case.</strong> A health appointment booking service was first launched as a FormSG form feeding into an Excel sheet. Not scalable &mdash; deliberately so. It was the lowest-cost way to validate the approach. An A/B test then changed a single variable: the control group produced zero bookings, the treatment group produced 24, and users shared the link unprompted. That is a validated assumption for the price of a form.</p>
+
+      <div class="beginner">
+        <b>In plain terms</b>
+        <p>An ugly thing that answers your riskiest question this week beats a polished thing that answers it next year. Ask "what's the cheapest way to find out?" before "how do we build this properly?"</p>
+      </div>
+    </div>
+  </article>
+
+  <!-- 6 -->
+  <article class="mod" id="m6">
+    <div class="mod-head">
+      <span class="mod-num">06</span>
+      <h2>A good customer experience</h2>
+    </div>
+    <div class="mod-body">
+      <p class="pull">Good customer experience isn't a nice-to-have, it's necessary. This is especially true when services are compulsory, because citizens don't have the option to go elsewhere.<cite>Module 6</cite></p>
+
+      <p>That's the argument that makes CX a government concern specifically. In a market, a bad experience shows up as lost customers, and the business fixes it to survive. When a service is mandatory, there is no exit &mdash; the bad experience just accumulates as unmeasured public frustration. Nobody churns, so nothing forces the fix. You have to hold the standard yourself.</p>
+
+      <p>The best government digital products do something specific: <strong>they remove a real, named frustration that users were experiencing before.</strong> ParkingSG removed paper coupons you had to tear and display &mdash; and the fine you got for mis-tearing them. RedeemSG removed the physical voucher you had to collect, carry and not lose. Both are narrow. Both are unmistakable.</p>
+
+      <div class="fw">
+        <div class="fw-title"><b>The 11-star framework</b><span>a tool for recalibrating ambition</span></div>
+        <dl>
+          <dt>The exercise</dt>
+          <dd>Describe a 5-star experience &mdash; the adequate version. Then keep going: 6, 7, 8&hellip; up to an 11-star experience that is absurdly, impossibly good.</dd>
+          <dt>Why bother</dt>
+          <dd>Somewhere between adequate and impossible lies an experience that's genuinely worth building. The absurd end of the scale is where you find the ideas that a "realistic" brainstorm would have filtered out at birth.</dd>
+        </dl>
+      </div>
+
+      <div class="beginner">
+        <b>In plain terms</b>
+        <p>Design for users, target one specific frustration, and make trade-offs on purpose rather than by accident. The 11-star exercise isn't a plan &mdash; it's a way of raising the ceiling before you start negotiating down.</p>
+      </div>
+    </div>
+  </article>
+
+  <!-- 7 -->
+  <article class="mod" id="m7">
+    <div class="mod-head">
+      <span class="mod-num">07</span>
+      <h2>Key takeaways</h2>
+    </div>
+    <div class="mod-body">
+      <p>Product thinking is a discipline of asking better questions before reaching for solutions. It isn't a one-time methodology you run at kick-off &mdash; it's a way of working: a set of habits for diagnosing problems, making decisions, and learning from what you build.</p>
+
+      <div class="tbl-scroll">
+      <table class="cmp">
+        <thead><tr><th scope="col">Tool</th><th scope="col">The question it answers</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">5 Whys</th><td>Why does this problem actually exist?</td></tr>
+          <tr><th scope="row">4Cs</th><td>Can we all state the problem the same way?</td></tr>
+          <tr><th scope="row">SMART + VCR</th><td>How will we know it worked, and was it worth it?</td></tr>
+          <tr><th scope="row">Staged delivery</th><td>What's the cheapest way to find out we're wrong?</td></tr>
+          <tr><th scope="row">11-star</th><td>How good could this actually be?</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <p>The next step is not another course. Take an initiative already underway and run these frameworks over it &mdash; that's where product thinking becomes real.</p>
+    </div>
+  </article>
+
+</div>
+</main>
+
+<section class="quiz" id="quiz">
+  <div class="wrap">
+    <div class="quiz-head">
+      <h2>Test your understanding</h2>
+      <p>Eighteen questions across all seven modules. You'll get the answer and the reasoning immediately after each one &mdash; guessing is fine, that's how you find the gaps.</p>
+    </div>
+
+    <div id="runner">
+      <div class="progress">
+        <span id="counter">Question 1 of 18</span>
+        <span class="bar"><i id="barfill"></i></span>
+        <span class="score-live" id="scorelive">0 correct</span>
+      </div>
+
+      <div class="qcard">
+        <p class="qmeta" id="qmeta">Module 1</p>
+        <p class="qtext" id="qtext"></p>
+        <fieldset class="opts" id="opts"></fieldset>
+        <div class="feedback" id="feedback" hidden>
+          <div class="verdict" id="verdict"></div>
+          <p id="explain"></p>
+          <p class="ref" id="ref"></p>
+        </div>
+        <div class="qnav">
+          <button type="button" class="btn" id="next" hidden>Next question</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="results" id="results" hidden>
+      <h3 id="rtitle"></h3>
+      <p class="tally" id="rtally"></p>
+      <p id="rmsg"></p>
+      <div class="breakdown" id="breakdown"></div>
+      <div class="qnav">
+        <button type="button" class="btn" id="retry">Take it again</button>
+        <button type="button" class="btn ghost" id="toTop">Back to the notes</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>Summarised from the Institute of Digital Government's Product Thinking learning pathway (Modules 1&ndash;7), <a href="https://www.idg.gov.sg/product-thinking/">idg.gov.sg/product-thinking</a>. Quiz questions and the plain-language explanations are study aids written for this page, not official IDG assessment material.</p>
+  </div>
+</footer>
+
+<script>
+const QUESTIONS = [
+  {
+    mod:"Module 1 — Understanding the problem",
+    q:"According to product thinking, what is the most common reason digital projects fail?",
+    opts:[
+      "The team lacked the technical skill to execute well",
+      "They solved the wrong problem",
+      "The budget was approved too late",
+      "The technology chosen was out of date"
+    ],
+    a:1,
+    why:"Failure is usually a diagnosis error, not an execution error. Module 1 puts it directly: many projects fail not because of poor execution, but because they solve the wrong problem. A well-built solution to the wrong problem is still a failure."
+  },
+  {
+    mod:"Module 1 — Understanding the problem",
+    q:"Grab started with taxis, Amazon with books, Netflix with DVDs. What is the lesson?",
+    opts:[
+      "Start in a low-competition market so you can grow undisturbed",
+      "Physical services are easier to digitise than digital ones",
+      "None started with the full vision — each nailed one problem first, then scaled",
+      "Early ideas are usually wrong and should be discarded quickly"
+    ],
+    a:2,
+    why:"The point is sequencing, not industry choice. None of them began with the full vision. Each solved one problem properly, earned the right to expand, and scaled from there."
+  },
+  {
+    mod:"Module 1 — Outputs vs outcomes",
+    scenario:"A team reports at the end of the quarter: “We launched the new grant portal, on time, with all 14 planned features.”",
+    q:"What has the team actually reported?",
+    opts:[
+      "An outcome, because a working portal is the goal",
+      "An output — what was shipped, not what changed for anyone",
+      "A lagging indicator of adoption",
+      "Confirmation, in the 4Cs sense"
+    ],
+    a:1,
+    why:"Features shipped on schedule is an output: it describes the deliverable. An outcome would name the change for people — applications completed faster, fewer rejected submissions, higher take-up. Success is defined by change, not by features delivered."
+  },
+  {
+    mod:"Module 1 — Three core principles",
+    q:"Which of these is one of the three core principles of product thinking?",
+    opts:[
+      "Ship early and iterate publicly",
+      "Integrate policy, operations and technology",
+      "Automate the process before redesigning it",
+      "Prioritise the largest user group first"
+    ],
+    a:1,
+    why:"The three principles are: problems before solutions, outcomes over outputs, and integrating policy, operations and technology. That third one matters because a digital fix alone rarely works — the rule, the process and the system have to move together."
+  },
+  {
+    mod:"Module 2 — Start with the whys",
+    q:"What is the Five Whys designed to do?",
+    opts:[
+      "Move you from symptom to cause",
+      "Generate five candidate solutions to compare",
+      "Confirm a problem is worth funding",
+      "Break a large project into five delivery stages"
+    ],
+    a:0,
+    why:"It's a diagnostic tool, not an ideation or planning tool. You repeatedly ask why the problem exists so you stop treating the visible symptom and start acting on the underlying cause."
+  },
+  {
+    mod:"Module 2 — Choosing the level to fix",
+    q:"You've traced a problem down several whys. Which cause should you target?",
+    opts:[
+      "The deepest cause you can reach, regardless of who owns it",
+      "Whichever cause is fastest and cheapest to address",
+      "A cause within your control and closely connected to the outcome you want to change",
+      "The first cause the team agrees on, to avoid stalling"
+    ],
+    a:2,
+    why:"Both conditions have to hold. A profound root cause you have no authority over is unusable; something you control but which barely moves the outcome is a distraction. Problems rarely have one root cause — you're choosing the level you can act on that actually shifts the outcome."
+  },
+  {
+    mod:"Module 3 — The 4Cs",
+    q:"What do the four Cs stand for?",
+    opts:[
+      "Context, Constraint, Cost, Commitment",
+      "Clarity, Consequence, Cause, Confirmation",
+      "Customer, Cause, Change, Choice",
+      "Clarity, Coverage, Cost, Confidence"
+    ],
+    a:1,
+    why:"Clarity (what exactly is the problem), Consequence (what happens if nothing changes), Cause (why it happens), Confirmation (how you know it's real). All four are required for a complete problem statement."
+  },
+  {
+    mod:"Module 3 — The 4Cs",
+    scenario:"“Officers waste hours re-keying data between two systems because the systems don't talk to each other, which delays case processing and frustrates applicants.”",
+    q:"Which of the 4Cs is missing from this statement?",
+    opts:[
+      "Clarity",
+      "Consequence",
+      "Cause",
+      "Confirmation"
+    ],
+    a:3,
+    why:"It names the problem (Clarity), the impact (Consequence) and the reason (Cause) — but offers no evidence. Nothing tells you how many hours, from what data source, or how it was verified. Confirmation is the C that turns a plausible opinion into a problem statement."
+  },
+  {
+    mod:"Module 3 — The 4Cs",
+    q:"Which of these is the weakest problem statement?",
+    opts:[
+      "We need an AI chatbot to handle our enquiry volume",
+      "Applicants abandon the renewal form at step 4, where 62% of drop-off occurs",
+      "Frontline officers cannot see an applicant's history, so they ask for details already submitted",
+      "Take-up of the subsidy sits at 31% among eligible households, well below the 70% target"
+    ],
+    a:0,
+    why:"It's a solution wearing a problem's clothes. It names a technology before diagnosing anything — no cause, no evidence, no stated consequence. If your statement contains “we need a…”, you've skipped the diagnosis."
+  },
+  {
+    mod:"Module 4 — Metrics",
+    q:"In SMART, what does the A stand for?",
+    opts:[
+      "Ambitious — the target should stretch the team",
+      "Achievable — realistic to obtain",
+      "Aligned — agreed by all stakeholders",
+      "Auditable — traceable to a source system"
+    ],
+    a:1,
+    why:"Specific, Measurable, Achievable, Relevant, Time-bound. Achievable keeps the metric realistic to obtain rather than aspirational fiction that nobody can act on."
+  },
+  {
+    mod:"Module 4 — Metrics",
+    scenario:"A team tracks weekly form-completion rate and drop-off at each step, alongside average case processing time measured quarterly.",
+    q:"Which is the leading indicator, and why does it matter?",
+    opts:[
+      "Processing time — it proves the real outcome was achieved",
+      "Both are lagging, since both are measured after users act",
+      "Weekly completion rate — it gives early feedback while you can still steer",
+      "Neither; leading indicators must be forecasts, not measurements"
+    ],
+    a:2,
+    why:"Leading indicators give early feedback on activities and processes, so you can correct course. Lagging indicators — like quarterly processing time — measure the real outcome but arrive too late to change it. You need both, working together."
+  },
+  {
+    mod:"Module 4 — Metrics",
+    q:"What does the Value-Cost Ratio (VCR) measure?",
+    opts:[
+      "How much value is generated for every dollar spent",
+      "The ratio of leading to lagging indicators in a metric set",
+      "Total project cost divided by number of users",
+      "The gap between forecast and actual delivery cost"
+    ],
+    a:0,
+    why:"VCR is value per dollar spent. It's the tool for making the case for continued investment — and it shows you two routes to a better ratio: raise the value, or lower the cost."
+  },
+  {
+    mod:"Module 5 — Assumptions and risks",
+    q:"What two questions should a team ask before development begins?",
+    opts:[
+      "Who owns this, and who signs it off?",
+      "What could go wrong, and what's the cheapest way to find out?",
+      "What's in scope, and what's the delivery date?",
+      "How many users, and how much will it cost?"
+    ],
+    a:1,
+    why:"That pairing is the whole discipline. The first question surfaces the assumption; the second forces you to test it cheaply, before you've spent the money that makes being wrong expensive."
+  },
+  {
+    mod:"Module 5 — Stages of de-risking",
+    q:"What is the correct order of the four stages of de-risking?",
+    opts:[
+      "Pilot → Proof of Concept → Rollout → Review",
+      "Proof of Value → Proof of Concept → Maturity → Scale",
+      "Proof of Concept → Proof of Value → Scale → Maturity",
+      "Prototype → Scale → Proof of Value → Maturity"
+    ],
+    a:2,
+    why:"Proof of Concept asks whether the approach works at all. Proof of Value asks whether it delivers measurable benefit. Only then do you Scale to larger user bases, and finally reach Maturity — sustained, optimised operations."
+  },
+  {
+    mod:"Module 5 — Market risk",
+    scenario:"A health appointment booking service launched first as a FormSG form feeding into an Excel sheet. An A/B test returned zero bookings in the control group and 24 in the treatment group, with users sharing the link unprompted.",
+    q:"Why was an unscalable form the right first build?",
+    opts:[
+      "Excel is more reliable than a custom-built database",
+      "It was the lowest-cost way to validate the approach, and testability matters more than scalability at that stage",
+      "It avoided the need for user research",
+      "Government services must always pilot on existing platforms"
+    ],
+    a:1,
+    why:"It was never meant to scale. It was the cheapest way to answer the riskiest question — will anyone actually use this? — and changing a single variable made the answer unambiguous. Build for testability first; build for scale once the assumption survives."
+  },
+  {
+    mod:"Module 5 — Team risk",
+    q:"How does product thinking recommend addressing team risk?",
+    opts:[
+      "Assign a single accountable owner and let them delegate outward",
+      "Bring in external consultants for the specialisms you lack",
+      "Structure for speed, focus and flexibility, with policy, operations and technical expertise in one room",
+      "Split the work into parallel workstreams that hand off between stages"
+    ],
+    a:2,
+    why:"It's the third core principle applied to staffing. Policy, ops and tech sit together with clear accountability across all roles, so the trade-offs between rule, process and system get made in the room rather than across a hand-off."
+  },
+  {
+    mod:"Module 6 — Customer experience",
+    q:"Why is good customer experience especially important for compulsory government services?",
+    opts:[
+      "Compulsory services attract more public scrutiny and media attention",
+      "Citizens don't have the option to go elsewhere",
+      "Mandatory services usually have larger budgets to spend on design",
+      "Legislation requires accessibility standards for mandatory services"
+    ],
+    a:1,
+    why:"In a market, a bad experience costs you customers, and that pressure forces a fix. When a service is compulsory there is no exit — nobody churns, so nothing external forces the improvement. The standard has to be held deliberately."
+  },
+  {
+    mod:"Module 6 — The 11-star framework",
+    q:"What is the 11-star framework for?",
+    opts:[
+      "Scoring a service against eleven usability criteria",
+      "Rating user satisfaction on an extended scale",
+      "Recalibrating ambition by describing an absurdly good experience",
+      "Prioritising features by effort against impact"
+    ],
+    a:2,
+    why:"It's not a scoring rubric. You deliberately describe an experience beyond the realistic — the impossible end of the scale — because somewhere between adequate and impossible lies an experience genuinely worth building, which a 'realistic' brainstorm would have filtered out immediately."
+  }
+];
+
+const runner=document.getElementById("runner");
+const results=document.getElementById("results");
+const qmeta=document.getElementById("qmeta");
+const qtext=document.getElementById("qtext");
+const optsBox=document.getElementById("opts");
+const feedback=document.getElementById("feedback");
+const verdict=document.getElementById("verdict");
+const explain=document.getElementById("explain");
+const refEl=document.getElementById("ref");
+const nextBtn=document.getElementById("next");
+const counter=document.getElementById("counter");
+const barfill=document.getElementById("barfill");
+const scorelive=document.getElementById("scorelive");
+const KEYS=["A","B","C","D"];
+
+let i=0, score=0, log=[];
+
+function render(){
+  const q=QUESTIONS[i];
+  qmeta.textContent=q.mod;
+  qtext.innerHTML=(q.scenario?'<span class="scenario">'+q.scenario+'</span>':'')+q.q;
+  optsBox.innerHTML="";
+  q.opts.forEach(function(text,idx){
+    const b=document.createElement("button");
+    b.type="button";
+    b.className="opt";
+    b.id="q"+i+"o"+idx;
+    b.innerHTML='<span class="key">'+KEYS[idx]+'</span><span>'+text+'</span>';
+    b.addEventListener("click",function(){choose(idx)});
+    optsBox.appendChild(b);
+  });
+  feedback.hidden=true;
+  nextBtn.hidden=true;
+  counter.textContent="Question "+(i+1)+" of "+QUESTIONS.length;
+  barfill.style.width=(i/QUESTIONS.length*100)+"%";
+  scorelive.textContent=score+" correct";
+}
+
+function choose(idx){
+  const q=QUESTIONS[i];
+  const correct=idx===q.a;
+  if(correct) score++;
+  log.push({mod:q.mod,ok:correct});
+  Array.prototype.forEach.call(optsBox.children,function(b,n){
+    b.disabled=true;
+    if(n===q.a) b.classList.add("is-right");
+    else if(n===idx) b.classList.add("is-wrong");
+    else b.classList.add("is-dim");
+  });
+  feedback.hidden=false;
+  feedback.className="feedback "+(correct?"right":"wrong");
+  verdict.textContent=correct?"Correct":"Not quite";
+  explain.textContent=q.why;
+  refEl.textContent=q.mod;
+  nextBtn.hidden=false;
+  nextBtn.textContent=(i===QUESTIONS.length-1)?"See your results":"Next question";
+  barfill.style.width=((i+1)/QUESTIONS.length*100)+"%";
+  scorelive.textContent=score+" correct";
+  nextBtn.focus();
+}
+
+nextBtn.addEventListener("click",function(){
+  i++;
+  if(i>=QUESTIONS.length) finish();
+  else render();
+});
+
+function finish(){
+  runner.hidden=true;
+  results.hidden=false;
+  const pct=Math.round(score/QUESTIONS.length*100);
+  let title,msg;
+  if(pct>=90){title="You've got this.";msg="You can state the frameworks and apply them to a scenario. The next step isn't more reading — take an initiative already underway and run the 5 Whys and the 4Cs over it.";}
+  else if(pct>=70){title="Solid grasp.";msg="The core ideas are in place. Look at the modules you missed below and re-read those sections — they're usually the ones where a framework's detail matters, like the order of the de-risking stages or which C is missing.";}
+  else if(pct>=50){title="Halfway there.";msg="You've got the shape of it but the frameworks are still blurring together. Re-read Modules 3 and 4 in particular — the 4Cs and the leading/lagging distinction do the most work in practice.";}
+  else{title="Worth another pass.";msg="Start again from Module 1 and read for the three shifts: solutions to problems, outputs to outcomes, big-bang to staged delivery. Everything else hangs off those.";}
+  document.getElementById("rtitle").textContent=title;
+  document.getElementById("rtally").textContent=score+" / "+QUESTIONS.length+" correct  ·  "+pct+"%";
+  document.getElementById("rmsg").textContent=msg;
+  const bd=document.getElementById("breakdown");
+  bd.innerHTML="";
+  log.forEach(function(r,n){
+    const row=document.createElement("div");
+    row.className="brow "+(r.ok?"ok":"no");
+    row.innerHTML='<span class="mark">'+(r.ok?"CORRECT":"MISSED")+'</span><span class="topic">Q'+(n+1)+" — "+r.mod+'</span>';
+    bd.appendChild(row);
+  });
+  results.scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+document.getElementById("retry").addEventListener("click",function(){
+  i=0;score=0;log=[];
+  results.hidden=true;
+  runner.hidden=false;
+  render();
+  document.getElementById("quiz").scrollIntoView({behavior:"smooth",block:"start"});
+});
+document.getElementById("toTop").addEventListener("click",function(){
+  window.scrollTo({top:0,behavior:"smooth"});
+});
+
+render();
+</script>
+</body>
+</html>
